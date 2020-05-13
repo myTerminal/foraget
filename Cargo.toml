@@ -11,3 +11,4 @@ keywords = ["package-management"]
 categories = ["command-line-utilities"]
 
 [dependencies]
+clap = "2.33.1"
