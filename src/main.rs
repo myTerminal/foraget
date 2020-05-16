@@ -1,14 +1,13 @@
 use clap::{crate_authors, crate_description, crate_name, crate_version, App, Arg, SubCommand};
 
+mod tasks;
+
 fn main() {
     let matches = App::new(crate_name!())
         .version(crate_version!())
         .author(crate_authors!())
         .about(crate_description!())
-        .subcommand(
-            SubCommand::with_name("init")
-                .about("Install additional package sources"),
-        )
+        .subcommand(SubCommand::with_name("init").about("Install additional package sources"))
         .subcommand(
             SubCommand::with_name("search")
                 .about("Search for a package across sources")
@@ -41,20 +40,20 @@ fn main() {
         )
         .get_matches();
 
-    if let Some(matches) = matches.subcommand_matches("init") {
-        println!("Initializing more package sources...");
+    if let Some(_) = matches.subcommand_matches("init") {
+        tasks::init();
     } else if let Some(matches) = matches.subcommand_matches("search") {
         let package_to_search = matches.value_of("PACKAGE").unwrap();
 
-        println!("Searching {}...", package_to_search);
+        tasks::search(package_to_search);
     } else if let Some(matches) = matches.subcommand_matches("install") {
         let package_to_install = matches.value_of("PACKAGE").unwrap();
 
-        println!("Installing {}...", package_to_install);
+        tasks::install(package_to_install);
     } else if let Some(matches) = matches.subcommand_matches("uninstall") {
         let package_to_uninstall = matches.value_of("PACKAGE").unwrap();
 
-        println!("Uninstalling {}...", package_to_uninstall);
+        tasks::uninstall(package_to_uninstall);
     } else {
         println!("Please run {} with a command.", crate_name!());
     }
