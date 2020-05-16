@@ -1,4 +1,5 @@
 use clap::{crate_authors, crate_description, crate_name, crate_version, App, Arg, SubCommand};
+use ansi_term::Color;
 
 mod tasks;
 
@@ -55,6 +56,6 @@ fn main() {
 
         tasks::uninstall(package_to_uninstall);
     } else {
-        println!("Please run {} with a command.", crate_name!());
+        println!("{}", Color::Red.paint("Please run foraget with a command!"));
     }
 }
