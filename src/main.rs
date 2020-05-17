@@ -59,3 +59,11 @@ fn main() {
         println!("{}", Color::Red.paint("Please run foraget with a command!"));
     }
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        assert_eq!(2 + 2, 4);
+    }
+}
