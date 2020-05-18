@@ -1,9 +1,34 @@
-use clap::{crate_authors, crate_description, crate_name, crate_version, App, Arg, SubCommand};
-use ansi_term::Color;
+use std::process;
 
+use ansi_term::Color;
+use clap::{crate_authors, crate_description, crate_name, crate_version, App, Arg, SubCommand};
+
+mod environment;
+mod package_managers;
+mod platforms;
 mod tasks;
 
+use package_managers::PackageManager;
+use platforms::get_relevant_package_managers;
+
 fn main() {
+    // Get relevant package managers
+    if let Some(relevant_package_managers) = get_relevant_package_managers() {
+        // Run foraget for the relevant package managers
+        run(relevant_package_managers);
+    } else {
+        // Print error message about non-implementation for the platform
+        println!(
+            "{}",
+            Color::Red.paint("This platform is not yet supported!")
+        );
+
+        // Exit foraget
+        process::exit(0);
+    }
+}
+
+fn run(relevant_package_managers: Vec<PackageManager>) {
     let matches = App::new(crate_name!())
         .version(crate_version!())
         .author(crate_authors!())
@@ -42,20 +67,28 @@ fn main() {
         .get_matches();
 
     if let Some(_) = matches.subcommand_matches("init") {
+        // Init package sources
         tasks::init();
     } else if let Some(matches) = matches.subcommand_matches("search") {
-        let package_to_search = matches.value_of("PACKAGE").unwrap();
-
-        tasks::search(package_to_search);
+        // Search for the package across relevant package managers
+        tasks::search(
+            relevant_package_managers,
+            matches.value_of("PACKAGE").unwrap(),
+        );
     } else if let Some(matches) = matches.subcommand_matches("install") {
-        let package_to_install = matches.value_of("PACKAGE").unwrap();
-
-        tasks::install(package_to_install);
+        // Prompt to install the package from one of the relevant package managers
+        tasks::install(
+            relevant_package_managers,
+            matches.value_of("PACKAGE").unwrap(),
+        );
     } else if let Some(matches) = matches.subcommand_matches("uninstall") {
-        let package_to_uninstall = matches.value_of("PACKAGE").unwrap();
-
-        tasks::uninstall(package_to_uninstall);
+        // Try uninstalling the package using one of the relevant package managers
+        tasks::uninstall(
+            relevant_package_managers,
+            matches.value_of("PACKAGE").unwrap(),
+        );
     } else {
+        // Print an error message about non-implementation for the current platform
         println!("{}", Color::Red.paint("Please run foraget with a command!"));
     }
 }
