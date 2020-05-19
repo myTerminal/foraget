@@ -1,4 +1,4 @@
-use crate::environment::{does_exist, run_command};
+use crate::environment::{does_exist, evaluate_as_list};
 use crate::package_managers::PackageManager;
 use ansi_term::Color;
 
@@ -16,14 +16,37 @@ pub fn search(relevant_package_managers: Vec<PackageManager>, package_to_search:
     for p in &relevant_package_managers {
         // Check if the package manager exists
         if does_exist(p.command_name) {
-            // Compose a command for the current package manager and run itc
-            run_command(format!(
+            // Compose a command for the current package manager
+            let search_command = format!(
                 "{} {} {}",
                 p.command_name, p.search_command, package_to_search,
-            ))
-            .expect("There was an error searching for the package!");
+            );
+
+            // Run the search command and create a decorated list with package managers
+            let decorated_package_list =
+                get_decorated_package_list(p.command_name, evaluate_as_list(search_command));
+
+            // Print the decorated list to stdout
+            print_list(decorated_package_list);
         }
     }
+}
+
+fn get_decorated_package_list(package_manager: &str, package_list: Vec<String>) -> Vec<String> {
+    package_list
+        .iter()
+        .map(|p| {
+            format!(
+                "{} -> {}",
+                Color::Green.paint(package_manager.to_owned()),
+                p
+            )
+        })
+        .collect::<Vec<String>>()
+}
+
+fn print_list(list: Vec<String>) {
+    list.iter().for_each(|l| println!("{}", l));
 }
 
 pub fn install(_relevant_package_managers: Vec<PackageManager>, package_to_install: &str) {
