@@ -45,3 +45,9 @@ pub fn run_command(command: String) -> Result<Vec<String>, Error> {
             .collect::<Vec<String>>()
     )
 }
+
+pub fn run_command_and_print_result(command: String) {
+    run_command(command)
+        .iter()
+        .for_each(|line| println!("{:?}", line));
+}
