@@ -14,12 +14,16 @@ pub fn search(relevant_package_managers: Vec<PackageManager>, package_to_search:
 
     // Iterate through the relevant package managers
     for p in &relevant_package_managers {
-        // Compose a command for the current package manager and run itc
-        environment::run_command(format!(
-            "{} {} {}",
-            p.command_name, p.search_command, package_to_search,
-        ))
-        .expect("There was an error searching for the package!");
+
+        // Check if the package manager exists
+        if environment::does_exist(p.command_name) {
+            // Compose a command for the current package manager and run itc
+            environment::run_command(format!(
+                "{} {} {}",
+                p.command_name, p.search_command, package_to_search,
+            ))
+                .expect("There was an error searching for the package!");
+        }
     }
 }
 
