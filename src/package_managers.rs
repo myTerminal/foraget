@@ -56,7 +56,7 @@ impl Installer for PackageManager {
 fn get_pacman() -> PackageManager {
     PackageManager {
         command_name: "pacman",
-        search_command: "-Ss",
+        search_command: "-Ssq",
         install_command: "-S",
         uninstall_command: "-R",
         run_command: "",
@@ -66,7 +66,7 @@ fn get_pacman() -> PackageManager {
 fn get_yay() -> PackageManager {
     PackageManager {
         command_name: "yay",
-        search_command: "-Ss",
+        search_command: "-Ssq",
         install_command: "-S",
         uninstall_command: "-R",
         run_command: "",
