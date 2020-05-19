@@ -1,7 +1,7 @@
 use std::io::{BufRead, BufReader, Error, ErrorKind};
 use std::process::{Command, Stdio};
 
-pub fn evaluate(expression: String) -> String {
+pub fn evaluate_as_list(expression: String) -> Vec<String> {
     // Run the expression as a shell command and obtain the output
     let output = Command::new("/bin/bash")
         .arg("-c")
@@ -14,11 +14,14 @@ pub fn evaluate(expression: String) -> String {
         .unwrap()
         .trim()
         .to_string()
+        .split("\n")
+        .map(|s| s.to_string())
+        .collect::<Vec<String>>()
 }
 
 pub fn does_exist(command: &'static str) -> bool {
     // Return true if the command exists in the environment
-    evaluate(format!("which {}", command)) != ""
+    evaluate_as_list(format!("which {}", command))[0] != ""
 }
 
 pub fn run_command(command: String) -> Result<(), Error> {
