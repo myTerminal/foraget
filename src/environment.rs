@@ -24,7 +24,7 @@ pub fn does_exist(command: &'static str) -> bool {
     evaluate_as_list(format!("which {}", command))[0] != ""
 }
 
-pub fn run_command(command: String) -> Result<(), Error> {
+pub fn run_command(command: String) -> Result<Vec<String>, Error> {
     // Run the command and capture the stdout
     let stdout = Command::new("/bin/bash")
         .arg("-c")
@@ -34,13 +34,14 @@ pub fn run_command(command: String) -> Result<(), Error> {
         .stdout
         .ok_or_else(|| Error::new(ErrorKind::Other, "Could not capture standard output."))?;
 
-    // Print the stdout
+    // Read the stdout
     let reader = BufReader::new(stdout);
-    reader
-        .lines()
-        .filter_map(|line| line.ok())
-        .for_each(|line| println!("{}", line));
 
-    // Exit the function
-    Ok(())
+    // Return the stdout as a list
+    Ok(
+        reader
+            .lines()
+            .filter_map(|line| line.ok())
+            .collect::<Vec<String>>()
+    )
 }
