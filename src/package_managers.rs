@@ -9,46 +9,42 @@ pub struct PackageManager {
 }
 
 pub trait Installer {
-    fn search(&self, package: String) -> String;
-    fn install(&self, package: String) -> String;
-    fn uninstall(&self, package: String) -> String;
-    fn run(&self, package: String) -> String;
+    fn gen_search_command(&self, package: String) -> String;
+    fn gen_install_command(&self, package: String) -> String;
+    fn gen_uninstall_command(&self, package: String) -> String;
+    fn gen_run_command(&self, package: String) -> String;
 }
 
 impl Installer for PackageManager {
-    fn search(&self, package_name: String) -> String {
+    fn gen_search_command(&self, package_name: String) -> String {
         format!(
             "{} {} {}",
             self.command_name, self.search_command, package_name,
         )
-        .to_string()
     }
 
-    fn install(&self, package_name: String) -> String {
+    fn gen_install_command(&self, package_name: String) -> String {
         format!(
             "{} {} {}",
             self.command_name, self.install_command, package_name,
         )
-        .to_string()
     }
 
-    fn uninstall(&self, package_name: String) -> String {
+    fn gen_uninstall_command(&self, package_name: String) -> String {
         format!(
             "{} {} {}",
             self.command_name, self.uninstall_command, package_name,
         )
-        .to_string()
     }
 
-    fn run(&self, package_name: String) -> String {
+    fn gen_run_command(&self, package_name: String) -> String {
         if self.run_command != "" {
             format!(
                 "{} {} {}",
                 self.command_name, self.search_command, package_name,
             )
-            .to_string()
         } else {
-            format!("{}", package_name).to_string()
+            format!("{}", package_name)
         }
     }
 }
