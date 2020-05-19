@@ -2,10 +2,10 @@ use crate::environment::does_exist;
 
 pub struct PackageManager {
     pub command_name: &'static str,
-    pub search_command: &'static str,
-    pub install_command: &'static str,
-    pub uninstall_command: &'static str,
-    pub run_command: &'static str,
+    pub search_key: &'static str,
+    pub install_key: &'static str,
+    pub uninstall_key: &'static str,
+    pub run_key: &'static str,
 }
 
 pub trait Installer {
@@ -17,32 +17,26 @@ pub trait Installer {
 
 impl Installer for PackageManager {
     fn gen_search_command(&self, package_name: String) -> String {
-        format!(
-            "{} {} {}",
-            self.command_name, self.search_command, package_name,
-        )
+        format!("{} {} {}", self.command_name, self.search_key, package_name,)
     }
 
     fn gen_install_command(&self, package_name: String) -> String {
         format!(
             "{} {} {}",
-            self.command_name, self.install_command, package_name,
+            self.command_name, self.install_key, package_name,
         )
     }
 
     fn gen_uninstall_command(&self, package_name: String) -> String {
         format!(
             "{} {} {}",
-            self.command_name, self.uninstall_command, package_name,
+            self.command_name, self.uninstall_key, package_name,
         )
     }
 
     fn gen_run_command(&self, package_name: String) -> String {
-        if self.run_command != "" {
-            format!(
-                "{} {} {}",
-                self.command_name, self.search_command, package_name,
-            )
+        if self.run_key != "" {
+            format!("{} {} {}", self.command_name, self.search_key, package_name,)
         } else {
             format!("{}", package_name)
         }
@@ -52,70 +46,70 @@ impl Installer for PackageManager {
 fn get_pacman() -> PackageManager {
     PackageManager {
         command_name: "pacman",
-        search_command: "-Ssq",
-        install_command: "-S",
-        uninstall_command: "-R",
-        run_command: "",
+        search_key: "-Ssq",
+        install_key: "-S",
+        uninstall_key: "-R",
+        run_key: "",
     }
 }
 
 fn get_yay() -> PackageManager {
     PackageManager {
         command_name: "yay",
-        search_command: "-Ssq",
-        install_command: "-S",
-        uninstall_command: "-R",
-        run_command: "",
+        search_key: "-Ssq",
+        install_key: "-S",
+        uninstall_key: "-R",
+        run_key: "",
     }
 }
 
 fn get_dnf() -> PackageManager {
     PackageManager {
         command_name: "dnf",
-        search_command: "search",
-        install_command: "install",
-        uninstall_command: "uninstall",
-        run_command: "",
+        search_key: "search",
+        install_key: "install",
+        uninstall_key: "uninstall",
+        run_key: "",
     }
 }
 
 fn get_apt() -> PackageManager {
     PackageManager {
         command_name: "apt",
-        search_command: "search",
-        install_command: "install",
-        uninstall_command: "uninstall",
-        run_command: "",
+        search_key: "search",
+        install_key: "install",
+        uninstall_key: "uninstall",
+        run_key: "",
     }
 }
 
 fn get_snap() -> PackageManager {
     PackageManager {
         command_name: "snap",
-        search_command: "find",
-        install_command: "install",
-        uninstall_command: "remove",
-        run_command: "",
+        search_key: "find",
+        install_key: "install",
+        uninstall_key: "remove",
+        run_key: "",
     }
 }
 
 fn get_flatpak() -> PackageManager {
     PackageManager {
         command_name: "flatpak",
-        search_command: "search",
-        install_command: "install",
-        uninstall_command: "uninstall",
-        run_command: "run",
+        search_key: "search",
+        install_key: "install",
+        uninstall_key: "uninstall",
+        run_key: "run",
     }
 }
 
 fn get_brew() -> PackageManager {
     PackageManager {
         command_name: "brew",
-        search_command: "search",
-        install_command: "install",
-        uninstall_command: "uninstall",
-        run_command: "",
+        search_key: "search",
+        install_key: "install",
+        uninstall_key: "uninstall",
+        run_key: "",
     }
 }
 
