@@ -49,6 +49,7 @@ fn get_search_results(
 fn get_decorated_search_results(package_manager: &str, package_list: Vec<String>) -> Vec<String> {
     package_list
         .iter()
+        .filter(|p| p.len() > 0) // Filter out the search results with zero packages
         .map(|p| {
             format!(
                 "{} -> {}",
