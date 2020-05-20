@@ -1,6 +1,7 @@
 use std::io::{BufRead, BufReader, Error, ErrorKind};
 use std::process::{Command, Stdio};
 
+// Runs a shell command with no stdin and returns the output as a list
 pub fn evaluate_as_list(expression: String) -> Vec<String> {
     // Run the expression as a shell command and obtain the output
     let output = Command::new("/bin/bash")
@@ -19,11 +20,13 @@ pub fn evaluate_as_list(expression: String) -> Vec<String> {
         .collect::<Vec<String>>()
 }
 
+// Returns whether a command exists
 pub fn does_exist(command: &'static str) -> bool {
     // Return true if the command exists in the environment
     evaluate_as_list(format!("which {}", command))[0] != ""
 }
 
+// Runs a shell command with stdin and returns the stdout at the end
 pub fn run_command(command: String) -> Result<Vec<String>, Error> {
     // Run the command and capture the stdout
     let stdout = Command::new("/bin/bash")
@@ -46,12 +49,14 @@ pub fn run_command(command: String) -> Result<Vec<String>, Error> {
     )
 }
 
+// Runs a shell command with stdin and prints stdout at the end
 pub fn run_command_and_print_result(command: String) {
     run_command(command)
         .iter()
         .for_each(|line| println!("{:?}", line));
 }
 
+// Runs a shell command with full stdio only returns the status
 pub fn run_command_continuous(command: String) -> Result<(), Error> {
     // Run the command and capture the stdout
     let stdout = Command::new("/bin/bash")
