@@ -72,19 +72,19 @@ fn run(relevant_package_managers: Vec<PackageManager>) {
     } else if let Some(matches) = matches.subcommand_matches("search") {
         // Search for the package across relevant package managers
         tasks::search(
-            relevant_package_managers,
+            &relevant_package_managers,
             matches.value_of("PACKAGE").unwrap(),
         );
     } else if let Some(matches) = matches.subcommand_matches("install") {
         // Prompt to install the package from one of the relevant package managers
         tasks::install(
-            relevant_package_managers,
+            &relevant_package_managers,
             matches.value_of("PACKAGE").unwrap(),
         );
     } else if let Some(matches) = matches.subcommand_matches("uninstall") {
         // Try uninstalling the package using one of the relevant package managers
         tasks::uninstall(
-            relevant_package_managers,
+            &relevant_package_managers,
             matches.value_of("PACKAGE").unwrap(),
         );
     } else {

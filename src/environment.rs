@@ -51,3 +51,24 @@ pub fn run_command_and_print_result(command: String) {
         .iter()
         .for_each(|line| println!("{:?}", line));
 }
+
+pub fn run_command_continuous(command: String) -> Result<(), Error> {
+    // Run the command and capture the stdout
+    let stdout = Command::new("/bin/bash")
+        .arg("-c")
+        .arg(command)
+        .stdout(Stdio::piped())
+        .spawn()?
+        .stdout
+        .ok_or_else(|| Error::new(ErrorKind::Other, "Could not capture standard output."))?;
+
+    // Print the stdout
+    let reader = BufReader::new(stdout);
+    reader
+        .lines()
+        .filter_map(|line| line.ok())
+        .for_each(|line| println!("{}", line));
+
+    // Exit the function
+    Ok(())
+}
