@@ -1,4 +1,4 @@
-use crate::environment::{does_exist, evaluate_as_list, run_command_continuous};
+use crate::environment::{does_exist, run_command_and_get_list, run_command_continuous};
 use crate::package_managers::{Installer, PackageManager};
 use ansi_term::Color;
 
@@ -31,7 +31,7 @@ fn get_search_results(
             get_decorated_search_results(
                 // Run the search command and create a decorated list with package managers
                 p.command_name,
-                evaluate_as_list(p.gen_search_command(package_to_search.to_string())),
+                run_command_and_get_list(p.gen_search_command(package_to_search.to_string())),
             )
         })
         .collect::<Vec<Vec<String>>>();
