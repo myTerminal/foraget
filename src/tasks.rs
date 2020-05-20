@@ -76,6 +76,12 @@ pub fn install(relevant_package_managers: &Vec<PackageManager>, package_to_insta
             .for_each(|p| {
                 run_command_continuous(p.gen_install_command(package_to_install.to_string()));
             });
+    } else if search_results.len() == 0 {
+        println!(
+            "{} {}",
+            Color::Red.paint("There were no results found for"),
+            Color::Yellow.paint(package_to_install.to_string())
+        );
     } else {
         println!("Not implemented");
     }
