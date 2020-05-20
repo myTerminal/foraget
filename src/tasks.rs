@@ -13,16 +13,18 @@ pub fn search(relevant_package_managers: Vec<PackageManager>, package_to_search:
     println!("Searching {}...", Color::Yellow.paint(package_to_search));
 
     // Print search results from all available package managers
-    get_search_results(relevant_package_managers, package_to_search)
-        .iter()
-        .for_each(|r| print_list(r));
+    print_list(&get_search_results(
+        relevant_package_managers,
+        package_to_search,
+    ));
 }
 
 fn get_search_results(
     relevant_package_managers: Vec<PackageManager>,
     package_to_search: &str,
-) -> Vec<Vec<String>> {
-    relevant_package_managers
+) -> Vec<String> {
+    // Generate search results across package managers
+    let mut set_of_search_results = relevant_package_managers
         .iter()
         .filter(|p| does_exist(p.command_name)) // Filter out package managers that don't exist
         .map(|p| {
@@ -32,7 +34,16 @@ fn get_search_results(
                 evaluate_as_list(p.gen_search_command(package_to_search.to_string())),
             )
         })
-        .collect::<Vec<Vec<String>>>()
+        .collect::<Vec<Vec<String>>>();
+
+    // Collect all search results in a single list
+    let mut combined_search_results = Vec::<String>::new();
+    for results in &mut set_of_search_results {
+        combined_search_results.append(results);
+    }
+
+    // Return the flat list of search results
+    combined_search_results
 }
 
 fn get_decorated_search_results(package_manager: &str, package_list: Vec<String>) -> Vec<String> {
