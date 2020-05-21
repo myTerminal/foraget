@@ -6,6 +6,7 @@ pub struct PackageManager {
     pub install_key: &'static str,
     pub uninstall_key: &'static str,
     pub run_key: &'static str,
+    pub does_need_root: bool,
 }
 
 pub trait Installer {
@@ -21,17 +22,31 @@ impl Installer for PackageManager {
     }
 
     fn gen_install_command(&self, package_name: String) -> String {
-        format!(
-            "{} {} {}",
-            self.command_name, self.install_key, package_name,
-        )
+        if self.does_need_root {
+            format!(
+                "sudo {} {} {}",
+                self.command_name, self.install_key, package_name,
+            )
+        } else {
+            format!(
+                "{} {} {}",
+                self.command_name, self.install_key, package_name,
+            )
+        }
     }
 
     fn gen_uninstall_command(&self, package_name: String) -> String {
-        format!(
-            "{} {} {}",
-            self.command_name, self.uninstall_key, package_name,
-        )
+        if self.does_need_root {
+            format!(
+                "sudo {} {} {}",
+                self.command_name, self.uninstall_key, package_name,
+            )
+        } else {
+            format!(
+                "{} {} {}",
+                self.command_name, self.uninstall_key, package_name,
+            )
+        }
     }
 
     fn gen_run_command(&self, package_name: String) -> String {
@@ -50,6 +65,7 @@ fn get_pacman() -> PackageManager {
         install_key: "-S",
         uninstall_key: "-R",
         run_key: "",
+        does_need_root: true,
     }
 }
 
@@ -60,6 +76,7 @@ fn get_yay() -> PackageManager {
         install_key: "-S",
         uninstall_key: "-R",
         run_key: "",
+        does_need_root: false,
     }
 }
 
@@ -70,6 +87,7 @@ fn get_dnf() -> PackageManager {
         install_key: "install",
         uninstall_key: "uninstall",
         run_key: "",
+        does_need_root: true,
     }
 }
 
@@ -80,6 +98,7 @@ fn get_apt() -> PackageManager {
         install_key: "install",
         uninstall_key: "uninstall",
         run_key: "",
+        does_need_root: true,
     }
 }
 
@@ -90,6 +109,7 @@ fn get_snap() -> PackageManager {
         install_key: "install",
         uninstall_key: "remove",
         run_key: "",
+        does_need_root: true,
     }
 }
 
@@ -100,6 +120,7 @@ fn get_flatpak() -> PackageManager {
         install_key: "install",
         uninstall_key: "uninstall",
         run_key: "run",
+        does_need_root: true,
     }
 }
 
@@ -110,6 +131,7 @@ fn get_brew() -> PackageManager {
         install_key: "install",
         uninstall_key: "uninstall",
         run_key: "",
+        does_need_root: true,
     }
 }
 
