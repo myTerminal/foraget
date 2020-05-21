@@ -60,8 +60,6 @@ fn get_decorated_search_results(package_manager: &str, package_list: Vec<String>
 pub fn install(relevant_package_managers: &Vec<PackageManager>, package_to_install: &str) {
     let search_results = get_search_results(relevant_package_managers, package_to_install);
 
-    println!("{}", search_results.len());
-
     if search_results.len() == 1 {
         // When there's only a single package
         install_selected_package(
@@ -77,7 +75,6 @@ pub fn install(relevant_package_managers: &Vec<PackageManager>, package_to_insta
             Color::Yellow.paint(package_to_install.to_string())
         );
     } else {
-        // When there are multiple options
         // Let user choose one of the options
         let selected_package = prompt_for_value_from_list(&search_results);
 
