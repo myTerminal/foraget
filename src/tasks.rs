@@ -109,7 +109,17 @@ fn install_selected_package(
         .iter()
         .filter(|p| p.command_name == pair.0)
         .for_each(|p| {
-            run_command_continuous(p.gen_install_command(package_to_install.to_string()));
+            let output =
+                run_command_continuous(p.gen_install_command(package_to_install.to_string()));
+
+            match output {
+                Ok(_) => println!("{}", Color::Blue.paint("Operation complete!")),
+                Err(_) => println!(
+                    "{} {}",
+                    Color::Red.paint("There was an error installing"),
+                    Color::Yellow.paint(package_to_install)
+                ),
+            }
         });
 }
 
