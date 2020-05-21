@@ -75,3 +75,11 @@ pub fn run_command_continuous(command: String) -> Result<(), Error> {
     // Exit the function
     Ok(())
 }
+
+pub fn print_list(list: &Vec<String>) {
+    list.iter().for_each(|l| println!("{}", l));
+}
+
+pub fn prompt_for_value_from_list(list: &Vec<String>) -> String {
+    String::from("yay -> fzf-extras-git")
+}

@@ -1,4 +1,7 @@
-use crate::environment::{does_exist, run_command_and_get_list, run_command_continuous};
+use crate::environment::{
+    does_exist, print_list, prompt_for_value_from_list, run_command_and_get_list,
+    run_command_continuous,
+};
 use crate::package_managers::{Installer, PackageManager};
 use ansi_term::Color;
 
@@ -54,36 +57,35 @@ fn get_decorated_search_results(package_manager: &str, package_list: Vec<String>
         .collect::<Vec<String>>()
 }
 
-fn print_list(list: &Vec<String>) {
-    list.iter().for_each(|l| println!("{}", l));
-}
-
 pub fn install(relevant_package_managers: &Vec<PackageManager>, package_to_install: &str) {
     let search_results = get_search_results(relevant_package_managers, package_to_install);
 
+    println!("{}", search_results.len());
+
     if search_results.len() == 1 {
-        let pair = break_pair_from_search_result(&search_results[0]);
-
-        println!(
-            "Installing {} via {}...",
-            Color::Yellow.paint(&pair.1),
-            pair.0
+        // When there's only a single package
+        install_selected_package(
+            &relevant_package_managers,
+            &search_results[0],
+            package_to_install,
         );
-
-        relevant_package_managers
-            .iter()
-            .filter(|p| p.command_name == pair.0)
-            .for_each(|p| {
-                run_command_continuous(p.gen_install_command(package_to_install.to_string()));
-            });
     } else if search_results.len() == 0 {
+        // When there's no package
         println!(
             "{} {}",
             Color::Red.paint("There were no results found for"),
             Color::Yellow.paint(package_to_install.to_string())
         );
     } else {
-        println!("Not implemented");
+        // When there are multiple options
+        // Let user choose one of the options
+        let selected_package = prompt_for_value_from_list(&search_results);
+
+        install_selected_package(
+            &relevant_package_managers,
+            &selected_package,
+            package_to_install,
+        );
     }
 }
 
@@ -91,6 +93,27 @@ fn break_pair_from_search_result(search_result: &String) -> (String, String) {
     let pair = search_result.split(" -> ").collect::<Vec<&str>>();
 
     (pair[0].to_string(), pair[1].to_string())
+}
+
+fn install_selected_package(
+    package_managers: &Vec<PackageManager>,
+    decorated_result: &String,
+    package_to_install: &str,
+) {
+    let pair = break_pair_from_search_result(&decorated_result);
+
+    println!(
+        "Installing {} via {}...",
+        Color::Yellow.paint(&pair.1),
+        pair.0
+    );
+
+    package_managers
+        .iter()
+        .filter(|p| p.command_name == pair.0)
+        .for_each(|p| {
+            run_command_continuous(p.gen_install_command(package_to_install.to_string()));
+        });
 }
 
 pub fn uninstall(_relevant_package_managers: &Vec<PackageManager>, package_to_uninstall: &str) {
