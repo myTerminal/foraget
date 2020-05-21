@@ -94,5 +94,5 @@ pub fn prompt_for_value_from_list(list: &Vec<String>) -> String {
     let result =
         run_command_and_get_result(format!("echo -e \"{}\" | fzf", get_multiline_string(&list)));
 
-    result.unwrap()[0].to_string()
+    result.unwrap_or(vec!("".to_string()))[0].to_string()
 }
