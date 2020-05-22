@@ -6,6 +6,7 @@ pub struct PackageManager {
     pub install_key: &'static str,
     pub uninstall_key: &'static str,
     pub run_key: &'static str,
+    pub no_confirm_key: &'static str,
     pub does_need_root: bool,
 }
 
@@ -24,13 +25,13 @@ impl Installer for PackageManager {
     fn gen_install_command(&self, package_name: String) -> String {
         if self.does_need_root {
             format!(
-                "sudo {} {} {}",
-                self.command_name, self.install_key, package_name,
+                "sudo {} {} {} {}",
+                self.command_name, self.install_key, package_name, self.no_confirm_key,
             )
         } else {
             format!(
-                "{} {} {}",
-                self.command_name, self.install_key, package_name,
+                "{} {} {} {}",
+                self.command_name, self.install_key, package_name, self.no_confirm_key,
             )
         }
     }
@@ -38,13 +39,13 @@ impl Installer for PackageManager {
     fn gen_uninstall_command(&self, package_name: String) -> String {
         if self.does_need_root {
             format!(
-                "sudo {} {} {}",
-                self.command_name, self.uninstall_key, package_name,
+                "sudo {} {} {} {}",
+                self.command_name, self.uninstall_key, package_name, self.no_confirm_key,
             )
         } else {
             format!(
-                "{} {} {}",
-                self.command_name, self.uninstall_key, package_name,
+                "{} {} {} {}",
+                self.command_name, self.uninstall_key, package_name, self.no_confirm_key,
             )
         }
     }
@@ -65,6 +66,7 @@ fn get_pacman() -> PackageManager {
         install_key: "-S",
         uninstall_key: "-R",
         run_key: "",
+        no_confirm_key: "--noconfirm",
         does_need_root: true,
     }
 }
@@ -76,6 +78,7 @@ fn get_yay() -> PackageManager {
         install_key: "-S",
         uninstall_key: "-R",
         run_key: "",
+        no_confirm_key: "--noconfirm",
         does_need_root: false,
     }
 }
@@ -87,6 +90,7 @@ fn get_dnf() -> PackageManager {
         install_key: "install",
         uninstall_key: "uninstall",
         run_key: "",
+        no_confirm_key: "-y",
         does_need_root: true,
     }
 }
@@ -98,6 +102,7 @@ fn get_apt() -> PackageManager {
         install_key: "install",
         uninstall_key: "uninstall",
         run_key: "",
+        no_confirm_key: "-y",
         does_need_root: true,
     }
 }
@@ -109,6 +114,7 @@ fn get_snap() -> PackageManager {
         install_key: "install",
         uninstall_key: "remove",
         run_key: "",
+        no_confirm_key: "",
         does_need_root: true,
     }
 }
@@ -120,6 +126,7 @@ fn get_flatpak() -> PackageManager {
         install_key: "install",
         uninstall_key: "uninstall",
         run_key: "run",
+        no_confirm_key: "",
         does_need_root: true,
     }
 }
@@ -131,6 +138,7 @@ fn get_brew() -> PackageManager {
         install_key: "install",
         uninstall_key: "uninstall",
         run_key: "",
+        no_confirm_key: "",
         does_need_root: true,
     }
 }
