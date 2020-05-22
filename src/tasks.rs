@@ -65,7 +65,6 @@ pub fn install(relevant_package_managers: &Vec<PackageManager>, package_to_insta
         install_selected_package(
             &relevant_package_managers,
             &search_results[0],
-            package_to_install,
         );
     } else if search_results.len() == 0 {
         // When there's no package
@@ -81,7 +80,6 @@ pub fn install(relevant_package_managers: &Vec<PackageManager>, package_to_insta
         install_selected_package(
             &relevant_package_managers,
             &selected_package,
-            package_to_install,
         );
     }
 }
@@ -92,11 +90,7 @@ fn break_pair_from_search_result(search_result: &String) -> (String, String) {
     (pair[0].to_string(), pair[1].to_string())
 }
 
-fn install_selected_package(
-    package_managers: &Vec<PackageManager>,
-    decorated_result: &String,
-    package_to_install: &str,
-) {
+fn install_selected_package(package_managers: &Vec<PackageManager>, decorated_result: &String) {
     let pair = break_pair_from_search_result(&decorated_result);
 
     println!(
@@ -109,15 +103,14 @@ fn install_selected_package(
         .iter()
         .filter(|p| p.command_name == pair.0)
         .for_each(|p| {
-            let output =
-                run_command_continuous(p.gen_install_command(package_to_install.to_string()));
+            let output = run_command_continuous(p.gen_install_command(pair.1.to_string()));
 
             match output {
                 Ok(_) => println!("{}", Color::Blue.paint("Operation complete!")),
                 Err(_) => println!(
                     "{} {}",
                     Color::Red.paint("There was an error installing"),
-                    Color::Yellow.paint(package_to_install)
+                    Color::Yellow.paint(pair.1.to_string())
                 ),
             }
         });
