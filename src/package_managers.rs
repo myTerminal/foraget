@@ -115,7 +115,7 @@ fn get_snap() -> PackageManager {
         uninstall_key: "remove",
         run_key: "",
         no_confirm_key: "",
-        does_need_root: true,
+        does_need_root: false,
     }
 }
 
@@ -127,7 +127,7 @@ fn get_flatpak() -> PackageManager {
         uninstall_key: "uninstall",
         run_key: "run",
         no_confirm_key: "",
-        does_need_root: true,
+        does_need_root: false,
     }
 }
 
