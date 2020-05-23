@@ -12,26 +12,23 @@ pub fn init() {
     );
 }
 
-pub fn search(relevant_package_managers: &Vec<PackageManager>, package_to_search: &str) {
+pub fn search(package_managers: &Vec<PackageManager>, package_to_search: &str) {
     println!("Searching {}...", Color::Yellow.paint(package_to_search));
 
     // Print search results from all available package managers
-    print_list(&get_search_results(
-        &relevant_package_managers,
-        package_to_search,
-    ));
+    print_list(&get_search_results(&package_managers, package_to_search));
 }
 
 fn get_search_results(
-    relevant_package_managers: &Vec<PackageManager>,
+    package_managers: &Vec<PackageManager>,
     package_to_search: &str,
 ) -> Vec<String> {
     // Generate search results across package managers
-    let mut set_of_search_results = relevant_package_managers
+    let mut list_of_search_results = package_managers
         .iter()
         .filter(|p| does_exist(p.command_name)) // Filter out package managers that don't exist
         .map(|p| {
-            get_decorated_search_results(
+            get_paired_search_results(
                 // Run the search command and create a decorated list with package managers
                 p.command_name,
                 run_command_and_get_list(p.gen_search_command(package_to_search.to_string())),
@@ -40,16 +37,16 @@ fn get_search_results(
         .collect::<Vec<Vec<String>>>();
 
     // Collect all search results in a single list
-    let mut combined_search_results = Vec::<String>::new();
-    for results in &mut set_of_search_results {
-        combined_search_results.append(results);
+    let mut all_search_results = Vec::<String>::new();
+    for results in &mut list_of_search_results {
+        all_search_results.append(results);
     }
 
     // Return the flat list of search results
-    combined_search_results
+    all_search_results
 }
 
-fn get_decorated_search_results(package_manager: &str, package_list: Vec<String>) -> Vec<String> {
+fn get_paired_search_results(package_manager: &str, package_list: Vec<String>) -> Vec<String> {
     package_list
         .iter()
         .filter(|p| p.len() > 0) // Filter out the search results with zero packages
@@ -57,15 +54,12 @@ fn get_decorated_search_results(package_manager: &str, package_list: Vec<String>
         .collect::<Vec<String>>()
 }
 
-pub fn install(relevant_package_managers: &Vec<PackageManager>, package_to_install: &str) {
-    let search_results = get_search_results(relevant_package_managers, package_to_install);
+pub fn install(package_managers: &Vec<PackageManager>, package_to_install: &str) {
+    let search_results = get_search_results(package_managers, package_to_install);
 
     if search_results.len() == 1 {
         // When there's only a single package
-        install_selected_package(
-            &relevant_package_managers,
-            &search_results[0],
-        );
+        install_from_selected_pair(&package_managers, &search_results[0]);
     } else if search_results.len() == 0 {
         // When there's no package
         println!(
@@ -75,23 +69,20 @@ pub fn install(relevant_package_managers: &Vec<PackageManager>, package_to_insta
         );
     } else {
         // Let user choose one of the options
-        let selected_package = prompt_for_value_from_list(&search_results);
+        let selected_pair = prompt_for_value_from_list(&search_results);
 
-        install_selected_package(
-            &relevant_package_managers,
-            &selected_package,
-        );
+        install_from_selected_pair(&package_managers, &selected_pair);
     }
 }
 
-fn break_pair_from_search_result(search_result: &String) -> (String, String) {
-    let pair = search_result.split(" -> ").collect::<Vec<&str>>();
+fn break_pair_from_search_result(result_item: &String) -> (String, String) {
+    let pair = result_item.split(" -> ").collect::<Vec<&str>>();
 
     (pair[0].to_string(), pair[1].to_string())
 }
 
-fn install_selected_package(package_managers: &Vec<PackageManager>, decorated_result: &String) {
-    let pair = break_pair_from_search_result(&decorated_result);
+fn install_from_selected_pair(package_managers: &Vec<PackageManager>, result_pair: &String) {
+    let pair = break_pair_from_search_result(&result_pair);
 
     println!(
         "Installing {} via {}...",
@@ -116,7 +107,7 @@ fn install_selected_package(package_managers: &Vec<PackageManager>, decorated_re
         });
 }
 
-pub fn uninstall(_relevant_package_managers: &Vec<PackageManager>, package_to_uninstall: &str) {
+pub fn uninstall(_package_managers: &Vec<PackageManager>, package_to_uninstall: &str) {
     println!(
         "Uninstalling {}...",
         Color::Yellow.paint(package_to_uninstall)

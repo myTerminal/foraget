@@ -13,9 +13,9 @@ use platforms::get_relevant_package_managers;
 
 fn main() {
     // Get relevant package managers
-    if let Some(relevant_package_managers) = get_relevant_package_managers() {
+    if let Some(package_managers) = get_relevant_package_managers() {
         // Run foraget for the relevant package managers
-        run(relevant_package_managers);
+        run(package_managers);
     } else {
         // Print error message about non-implementation for the platform
         println!(
@@ -28,7 +28,7 @@ fn main() {
     }
 }
 
-fn run(relevant_package_managers: Vec<PackageManager>) {
+fn run(package_managers: Vec<PackageManager>) {
     let matches = App::new(crate_name!())
         .version(crate_version!())
         .author(crate_authors!())
@@ -71,22 +71,13 @@ fn run(relevant_package_managers: Vec<PackageManager>) {
         tasks::init();
     } else if let Some(matches) = matches.subcommand_matches("search") {
         // Search for the package across relevant package managers
-        tasks::search(
-            &relevant_package_managers,
-            matches.value_of("PACKAGE").unwrap(),
-        );
+        tasks::search(&package_managers, matches.value_of("PACKAGE").unwrap());
     } else if let Some(matches) = matches.subcommand_matches("install") {
         // Prompt to install the package from one of the relevant package managers
-        tasks::install(
-            &relevant_package_managers,
-            matches.value_of("PACKAGE").unwrap(),
-        );
+        tasks::install(&package_managers, matches.value_of("PACKAGE").unwrap());
     } else if let Some(matches) = matches.subcommand_matches("uninstall") {
         // Try uninstalling the package using one of the relevant package managers
-        tasks::uninstall(
-            &relevant_package_managers,
-            matches.value_of("PACKAGE").unwrap(),
-        );
+        tasks::uninstall(&package_managers, matches.value_of("PACKAGE").unwrap());
     } else {
         // Print an error message about non-implementation for the current platform
         println!("{}", Color::Red.paint("Please run foraget with a command!"));

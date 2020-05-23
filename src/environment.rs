@@ -80,19 +80,19 @@ pub fn print_list(list: &Vec<String>) {
     list.iter().for_each(|l| println!("{}", l));
 }
 
-fn get_multiline_string(list: &Vec<String>) -> String {
-    let mut command = String::from(&list[0]);
+fn get_multiline_string(items: &Vec<String>) -> String {
+    let mut command = String::from(&items[0]);
 
-    for i in 1..(list.len()) {
-        command.push_str(&format!("\\n{}", list[i]));
+    for i in 1..(items.len()) {
+        command.push_str(&format!("\\n{}", items[i]));
     }
 
     command
 }
 
-pub fn prompt_for_value_from_list(list: &Vec<String>) -> String {
+pub fn prompt_for_value_from_list(options: &Vec<String>) -> String {
     let result =
-        run_command_and_get_result(format!("echo -e \"{}\" | fzf", get_multiline_string(&list)));
+        run_command_and_get_result(format!("echo -e \"{}\" | fzf", get_multiline_string(&options)));
 
     result.unwrap_or(vec!("".to_string()))[0].to_string()
 }
