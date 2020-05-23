@@ -15,7 +15,7 @@ fn main() {
     // Get relevant package managers
     if let Some(package_managers) = get_relevant_package_managers() {
         // Run foraget for the relevant package managers
-        run(package_managers);
+        run(&package_managers);
     } else {
         // Print error message about non-implementation for the platform
         println!(
@@ -28,7 +28,7 @@ fn main() {
     }
 }
 
-fn run(package_managers: Vec<PackageManager>) {
+fn run(package_managers: &Vec<PackageManager>) {
     let matches = App::new(crate_name!())
         .version(crate_version!())
         .author(crate_authors!())

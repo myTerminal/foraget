@@ -11,18 +11,18 @@ pub struct PackageManager {
 }
 
 pub trait Installer {
-    fn gen_search_command(&self, package: String) -> String;
-    fn gen_install_command(&self, package: String) -> String;
-    fn gen_uninstall_command(&self, package: String) -> String;
-    fn gen_run_command(&self, package: String) -> String;
+    fn gen_search_command(&self, package: &str) -> String;
+    fn gen_install_command(&self, package: &str) -> String;
+    fn gen_uninstall_command(&self, package: &str) -> String;
+    fn gen_run_command(&self, package: &str) -> String;
 }
 
 impl Installer for PackageManager {
-    fn gen_search_command(&self, package_name: String) -> String {
+    fn gen_search_command(&self, package_name: &str) -> String {
         format!("{} {} {}", self.command_name, self.search_key, package_name,)
     }
 
-    fn gen_install_command(&self, package_name: String) -> String {
+    fn gen_install_command(&self, package_name: &str) -> String {
         if self.does_need_root {
             format!(
                 "sudo {} {} {} {}",
@@ -36,7 +36,7 @@ impl Installer for PackageManager {
         }
     }
 
-    fn gen_uninstall_command(&self, package_name: String) -> String {
+    fn gen_uninstall_command(&self, package_name: &str) -> String {
         if self.does_need_root {
             format!(
                 "sudo {} {} {} {}",
@@ -50,7 +50,7 @@ impl Installer for PackageManager {
         }
     }
 
-    fn gen_run_command(&self, package_name: String) -> String {
+    fn gen_run_command(&self, package_name: &str) -> String {
         if self.run_key != "" {
             format!("{} {} {}", self.command_name, self.search_key, package_name,)
         } else {

@@ -2,7 +2,7 @@ use std::io::{BufRead, BufReader, Error, ErrorKind};
 use std::process::{Command, Stdio};
 
 // Runs a shell command with no stdin and returns the output as a list
-pub fn run_command_and_get_list(expression: String) -> Vec<String> {
+pub fn run_command_and_get_list(expression: &str) -> Vec<String> {
     // Run the expression as a shell command and obtain the output
     let output = Command::new("/bin/bash")
         .arg("-c")
@@ -21,13 +21,13 @@ pub fn run_command_and_get_list(expression: String) -> Vec<String> {
 }
 
 // Returns whether a command exists
-pub fn does_exist(command: &'static str) -> bool {
+pub fn does_exist(command: &str) -> bool {
     // Return true if the command exists in the environment
-    run_command_and_get_list(format!("which {}", command))[0] != ""
+    run_command_and_get_list(&format!("which {}", command))[0] != ""
 }
 
 // Runs a shell command with stdin and returns the stdout at the end
-pub fn run_command_and_get_result(command: String) -> Result<Vec<String>, Error> {
+pub fn run_command_and_get_result(command: &str) -> Result<Vec<String>, Error> {
     // Run the command and capture the stdout
     let stdout = Command::new("/bin/bash")
         .arg("-c")
@@ -48,14 +48,14 @@ pub fn run_command_and_get_result(command: String) -> Result<Vec<String>, Error>
 }
 
 // Runs a shell command with stdin and prints stdout at the end
-pub fn run_command_and_print_result(command: String) {
-    run_command_and_get_result(command)
+pub fn run_command_and_print_result(command: &str) {
+    run_command_and_get_result(&command)
         .iter()
         .for_each(|line| println!("{:?}", line));
 }
 
 // Runs a shell command with full stdio only returns the status
-pub fn run_command_continuous(command: String) -> Result<(), Error> {
+pub fn run_command_continuous(command: &str) -> Result<(), Error> {
     // Run the command and capture the stdout
     let stdout = Command::new("/bin/bash")
         .arg("-c")
@@ -91,8 +91,10 @@ fn get_multiline_string(items: &Vec<String>) -> String {
 }
 
 pub fn prompt_for_value_from_list(options: &Vec<String>) -> String {
-    let result =
-        run_command_and_get_result(format!("echo -e \"{}\" | fzf", get_multiline_string(&options)));
+    let result = run_command_and_get_result(&format!(
+        "echo -e \"{}\" | fzf",
+        get_multiline_string(&options)
+    ));
 
-    result.unwrap_or(vec!("".to_string()))[0].to_string()
+    result.unwrap_or(vec![String::from("")])[0].to_string()
 }

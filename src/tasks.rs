@@ -31,7 +31,7 @@ fn get_search_results(
             get_paired_search_results(
                 // Run the search command and create a decorated list with package managers
                 p.command_name,
-                run_command_and_get_list(p.gen_search_command(package_to_search.to_string())),
+                &run_command_and_get_list(&p.gen_search_command(package_to_search)),
             )
         })
         .collect::<Vec<Vec<String>>>();
@@ -46,11 +46,11 @@ fn get_search_results(
     all_search_results
 }
 
-fn get_paired_search_results(package_manager: &str, package_list: Vec<String>) -> Vec<String> {
+fn get_paired_search_results(package_manager: &str, package_list: &Vec<String>) -> Vec<String> {
     package_list
         .iter()
         .filter(|p| p.len() > 0) // Filter out the search results with zero packages
-        .map(|p| format!("{} -> {}", package_manager.to_owned(), p))
+        .map(|p| format!("{} -> {}", package_manager, p))
         .collect::<Vec<String>>()
 }
 
@@ -75,13 +75,13 @@ pub fn install(package_managers: &Vec<PackageManager>, package_to_install: &str)
     }
 }
 
-fn break_pair_from_search_result(result_item: &String) -> (String, String) {
+fn break_pair_from_search_result(result_item: &str) -> (String, String) {
     let pair = result_item.split(" -> ").collect::<Vec<&str>>();
 
     (pair[0].to_string(), pair[1].to_string())
 }
 
-fn install_from_selected_pair(package_managers: &Vec<PackageManager>, result_pair: &String) {
+fn install_from_selected_pair(package_managers: &Vec<PackageManager>, result_pair: &str) {
     let pair = break_pair_from_search_result(&result_pair);
 
     println!(
@@ -94,7 +94,7 @@ fn install_from_selected_pair(package_managers: &Vec<PackageManager>, result_pai
         .iter()
         .filter(|p| p.command_name == pair.0)
         .for_each(|p| {
-            let output = run_command_continuous(p.gen_install_command(pair.1.to_string()));
+            let output = run_command_continuous(&p.gen_install_command(&pair.1));
 
             match output {
                 Ok(_) => println!("{}", Color::Blue.paint("Operation complete!")),
