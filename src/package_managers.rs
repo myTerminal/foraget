@@ -19,7 +19,7 @@ pub trait Installer {
 
 impl Installer for PackageManager {
     fn gen_search_command(&self, package_name: &str) -> String {
-        format!("{} {} {}", self.command_name, self.search_key, package_name,)
+        format!("{} {} {}", self.command_name, self.search_key, package_name)
     }
 
     fn gen_install_command(&self, package_name: &str) -> String {
@@ -52,7 +52,7 @@ impl Installer for PackageManager {
 
     fn gen_run_command(&self, package_name: &str) -> String {
         if self.run_key != "" {
-            format!("{} {} {}", self.command_name, self.search_key, package_name,)
+            format!("{} {} {}", self.command_name, self.run_key, package_name)
         } else {
             format!("{}", package_name)
         }
@@ -169,4 +169,135 @@ pub fn get_package_managers_for_linux() -> Option<Vec<PackageManager>> {
 
 pub fn get_package_managers_for_macos() -> Vec<PackageManager> {
     vec![get_brew()]
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn gen_search_command() {
+        let package_manager_with_root = PackageManager {
+            command_name: "pack-man",
+            search_key: "find",
+            install_key: "add",
+            uninstall_key: "remove",
+            run_key: "start",
+            no_confirm_key: "-y",
+            does_need_root: true,
+        };
+        assert_eq!(
+            String::from("pack-man find emacs"),
+            package_manager_with_root.gen_search_command("emacs"),
+            "Generates search command for a package manager"
+        );
+    }
+
+    #[test]
+    fn gen_install_command_with_root() {
+        let package_manager_with_root = PackageManager {
+            command_name: "pack-man",
+            search_key: "find",
+            install_key: "add",
+            uninstall_key: "remove",
+            run_key: "start",
+            no_confirm_key: "-y",
+            does_need_root: true,
+        };
+        assert_eq!(
+            String::from("sudo pack-man add emacs -y"),
+            package_manager_with_root.gen_install_command("emacs"),
+            "Generates install command for a package manager with root"
+        );
+    }
+
+    #[test]
+    fn gen_install_command_without_root() {
+        let package_manager_without_root = PackageManager {
+            command_name: "pack-man",
+            search_key: "find",
+            install_key: "add",
+            uninstall_key: "remove",
+            run_key: "",
+            no_confirm_key: "-y",
+            does_need_root: false,
+        };
+        assert_eq!(
+            String::from("pack-man add emacs -y"),
+            package_manager_without_root.gen_install_command("emacs"),
+            "Generates install command for a package manager without root"
+        );
+    }
+
+    #[test]
+    fn gen_uninstall_command_with_root() {
+        let package_manager_with_root = PackageManager {
+            command_name: "pack-man",
+            search_key: "find",
+            install_key: "add",
+            uninstall_key: "remove",
+            run_key: "start",
+            no_confirm_key: "-y",
+            does_need_root: true,
+        };
+        assert_eq!(
+            String::from("sudo pack-man remove emacs -y"),
+            package_manager_with_root.gen_uninstall_command("emacs"),
+            "Generates uninstall command for a package manager with root"
+        );
+    }
+
+    #[test]
+    fn gen_uninstall_command_without_root() {
+        let package_manager_without_root = PackageManager {
+            command_name: "pack-man",
+            search_key: "find",
+            install_key: "add",
+            uninstall_key: "remove",
+            run_key: "",
+            no_confirm_key: "-y",
+            does_need_root: false,
+        };
+        assert_eq!(
+            String::from("pack-man remove emacs -y"),
+            package_manager_without_root.gen_uninstall_command("emacs"),
+            "Generates uninstall command for a package manager without root"
+        );
+    }
+
+    #[test]
+    fn gen_run_command_with_run_key() {
+        let package_manager_with_root = PackageManager {
+            command_name: "pack-man",
+            search_key: "find",
+            install_key: "add",
+            uninstall_key: "remove",
+            run_key: "start",
+            no_confirm_key: "-y",
+            does_need_root: true,
+        };
+        assert_eq!(
+            String::from("pack-man start emacs"),
+            package_manager_with_root.gen_run_command("emacs"),
+            "Generates run command for a package manager with a run key"
+        );
+    }
+
+    #[test]
+    fn gen_run_command_without_run_key() {
+        let package_manager_without_root = PackageManager {
+            command_name: "pack-man",
+            search_key: "find",
+            install_key: "add",
+            uninstall_key: "remove",
+            run_key: "",
+            no_confirm_key: "-y",
+            does_need_root: false,
+        };
+        assert_eq!(
+            String::from("emacs"),
+            package_manager_without_root.gen_run_command("emacs"),
+            "Generates run command for a package manager without a run key"
+        );
+    }
 }

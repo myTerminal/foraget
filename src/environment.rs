@@ -81,6 +81,10 @@ pub fn print_list(list: &Vec<String>) {
 }
 
 fn get_multiline_string(items: &Vec<String>) -> String {
+    if items.len() == 0 {
+        return String::new();
+    }
+
     let mut command = String::from(&items[0]);
 
     for i in 1..(items.len()) {
@@ -97,4 +101,40 @@ pub fn prompt_for_value_from_list(options: &Vec<String>) -> String {
     ));
 
     result.unwrap_or(vec![String::from("")])[0].to_string()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn get_multiline_string_some_values() {
+        assert_eq!(
+            "One\\nTwo\\nThree",
+            get_multiline_string(&vec![
+                String::from("One"),
+                String::from("Two"),
+                String::from("Three")
+            ]),
+            "Creates a multiline string out of a string vector with a few strings"
+        );
+    }
+
+    #[test]
+    fn get_multiline_string_one_value() {
+        assert_eq!(
+            "One",
+            get_multiline_string(&vec![String::from("One"),]),
+            "Creates a multiline string out of a string vector with a single string"
+        );
+    }
+
+    #[test]
+    fn get_multiline_string_no_value() {
+        assert_eq!(
+            "",
+            get_multiline_string(&Vec::<String>::new()),
+            "Creates a multiline string out of an empty string vector"
+        );
+    }
 }

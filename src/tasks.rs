@@ -113,3 +113,46 @@ pub fn uninstall(_package_managers: &Vec<PackageManager>, package_to_uninstall: 
         Color::Yellow.paint(package_to_uninstall)
     );
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn get_paired_search_results_some_values() {
+        assert_eq!(
+            vec![
+                String::from("pack-man -> One"),
+                String::from("pack-man -> Two"),
+                String::from("pack-man -> Three")
+            ],
+            get_paired_search_results(
+                "pack-man",
+                &vec![
+                    String::from("One"),
+                    String::from("Two"),
+                    String::from("Three")
+                ]
+            ),
+            "Creates a string vector of pairs when supplied with a few values"
+        );
+    }
+
+    #[test]
+    fn get_paired_search_results_no_value() {
+        assert_eq!(
+            Vec::<String>::new(),
+            get_paired_search_results("pack-man", &Vec::<String>::new()),
+            "Creates a string vector of pairs when supplied with no value"
+        );
+    }
+
+    #[test]
+    fn break_pair_from_search_result_simple() {
+        assert_eq!(
+            (String::from("pack-man"), String::from("emacs")),
+            break_pair_from_search_result("pack-man -> emacs"),
+            "Breaks a search result into a pair"
+        );
+    }
+}
