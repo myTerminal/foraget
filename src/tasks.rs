@@ -10,6 +10,12 @@ pub fn init() {
         "Initializing more package sources.. ({}).",
         Color::Red.paint("Not implemented!")
     );
+
+    // TODO: Implement setting up of additional package managers
+    println!(
+        "{}",
+        Color::Red.paint("Setting up of additional package managers is not yet implemented!")
+    );
 }
 
 pub fn search(package_managers: &Vec<PackageManager>, package_to_search: &str) {
