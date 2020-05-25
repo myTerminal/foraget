@@ -112,6 +112,12 @@ pub fn uninstall(_package_managers: &Vec<PackageManager>, package_to_uninstall: 
         "Uninstalling {}...",
         Color::Yellow.paint(package_to_uninstall)
     );
+
+    // TODO: Implement uninstallation of packages
+    println!(
+        "{}",
+        Color::Red.paint("Uninstalling packages is not yet implemented!")
+    );
 }
 
 #[cfg(test)]
