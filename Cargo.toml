@@ -1,7 +1,7 @@
 [package]
 name = "foraget"
 version = "0.1.0"
-authors = ["myTerminal <team.terminal@gmail.com>"]
+authors = ["Mohammed Ismail Ansari <team.terminal@gmail.com>"]
 edition = "2018"
 description = "A simple universal package manager for Unix-like systems"
 readme = "README.md"
