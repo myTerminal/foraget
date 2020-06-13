@@ -1,3 +1,7 @@
+//! # foraget
+//!
+//! `foraget` is a simple universal package manager for Unix-like systems.
+
 use std::process;
 
 use ansi_term::Color;
@@ -11,6 +15,11 @@ mod tasks;
 use package_managers::PackageManager;
 use platforms::get_relevant_package_managers;
 
+/// The entry point to foraget.
+///
+/// Gathers information about relevant package managers for the current environment and calls `run`
+/// passing them in. If there are no known package managers for the currently detected environment,
+/// ends the program with an appropriate message.
 fn main() {
     // Get relevant package managers
     if let Some(package_managers) = get_relevant_package_managers() {
@@ -28,6 +37,7 @@ fn main() {
     }
 }
 
+/// Runs foraget with the supplied package managers.
 fn run(package_managers: &Vec<PackageManager>) {
     let matches = App::new(crate_name!())
         .version(crate_version!())

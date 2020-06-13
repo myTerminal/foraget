@@ -1,7 +1,15 @@
+//! Contains functions to interact with the environment.
+
 use std::io::{BufRead, BufReader, Error, ErrorKind};
 use std::process::{Command, Stdio};
 
-// Runs a shell command with no stdin and returns the output as a list
+/// Runs a shell command with no stdin and returns the output as a list.
+///
+/// # Example
+///
+/// ```
+/// run_command_and_get_list("ls -la");
+/// ```
 pub fn run_command_and_get_list(expression: &str) -> Vec<String> {
     // Run the expression as a shell command and obtain the output
     let output = Command::new("/bin/bash")
@@ -20,13 +28,25 @@ pub fn run_command_and_get_list(expression: &str) -> Vec<String> {
         .collect::<Vec<String>>()
 }
 
-// Returns whether a command exists
+/// Returns whether a command exists.
+///
+/// # Example
+///
+/// ```
+/// does_exist("yay");
+/// ```
 pub fn does_exist(command: &str) -> bool {
     // Return true if the command exists in the environment
     run_command_and_get_list(&format!("which {}", command))[0] != ""
 }
 
-// Runs a shell command with stdin and returns the stdout at the end
+/// Runs a shell command with stdin and returns the stdout at the end.
+///
+/// # Example
+///
+/// ```
+/// run_command_and_get_result("pacman -S emacs")
+/// ```
 pub fn run_command_and_get_result(command: &str) -> Result<Vec<String>, Error> {
     // Run the command and capture the stdout
     let stdout = Command::new("/bin/bash")
@@ -47,14 +67,26 @@ pub fn run_command_and_get_result(command: &str) -> Result<Vec<String>, Error> {
         .collect::<Vec<String>>())
 }
 
-// Runs a shell command with stdin and prints stdout at the end
+/// Runs a shell command with stdin and prints stdout at the end.
+///
+/// # Example
+///
+/// ```
+/// run_command_and_print_result("pacman -S emacs");
+/// ```
 pub fn run_command_and_print_result(command: &str) {
     run_command_and_get_result(&command)
         .iter()
         .for_each(|line| println!("{:?}", line));
 }
 
-// Runs a shell command with full stdio only returns the status
+/// Runs a shell command with full stdio only returns the status.
+///
+/// # Example
+///
+/// ```
+/// run_command_continuous("pacman -S emacs");
+/// ```
 pub fn run_command_continuous(command: &str) -> Result<(), Error> {
     // Run the command and capture the stdout
     let stdout = Command::new("/bin/bash")
@@ -76,10 +108,24 @@ pub fn run_command_continuous(command: &str) -> Result<(), Error> {
     Ok(())
 }
 
+/// Prints a list of strings to stdout.
+///
+/// # Example
+///
+/// ```
+/// print_list(vec!["one", "two", "three"]);
+/// ```
 pub fn print_list(list: &Vec<String>) {
     list.iter().for_each(|l| println!("{}", l));
 }
 
+/// Convert a list of strings into a multiline string.
+///
+/// # Example
+///
+/// ```
+/// get_multiline_string(vec!["one", "two", "three"]);
+/// ```
 fn get_multiline_string(items: &Vec<String>) -> String {
     if items.len() == 0 {
         return String::new();
@@ -94,6 +140,13 @@ fn get_multiline_string(items: &Vec<String>) -> String {
     command
 }
 
+/// Prompt for a choose an option from the supplied list
+///
+/// # Example
+///
+/// ```
+/// prompt_for_value_from_list(vec!["one", "two", "three"]);
+/// ```
 pub fn prompt_for_value_from_list(options: &Vec<String>) -> String {
     let result = run_command_and_get_result(&format!(
         "echo -e \"{}\" | fzf",

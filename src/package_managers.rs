@@ -1,5 +1,11 @@
+//! Contains information and logic around package managers for various environments.
+
 use crate::environment::does_exist;
 
+/// An abtract representation of a typical package manager.
+///
+/// This struct defines basic properties of a package manager that includes searching, installing,
+/// uninstalling and running a package.
 pub struct PackageManager {
     pub command_name: &'static str,
     pub search_key: &'static str,
@@ -10,6 +16,7 @@ pub struct PackageManager {
     pub does_need_root: bool,
 }
 
+/// A trait for generating commands for a package manager.
 pub trait Installer {
     fn gen_search_command(&self, package: &str) -> String;
     fn gen_install_command(&self, package: &str) -> String;
@@ -17,6 +24,7 @@ pub trait Installer {
     fn gen_run_command(&self, package: &str) -> String;
 }
 
+/// Implementation of trait `Installer` for struct `PackageManager`.
 impl Installer for PackageManager {
     fn gen_search_command(&self, package_name: &str) -> String {
         format!("{} {} {}", self.command_name, self.search_key, package_name)
@@ -59,6 +67,7 @@ impl Installer for PackageManager {
     }
 }
 
+/// Generates an instance of 'pacman'.
 fn get_pacman() -> PackageManager {
     PackageManager {
         command_name: "pacman",
@@ -71,6 +80,7 @@ fn get_pacman() -> PackageManager {
     }
 }
 
+/// Generates an instance of 'yay'.
 fn get_yay() -> PackageManager {
     PackageManager {
         command_name: "yay",
@@ -83,6 +93,7 @@ fn get_yay() -> PackageManager {
     }
 }
 
+/// Generates an instance of 'dnf'.
 fn get_dnf() -> PackageManager {
     PackageManager {
         command_name: "dnf",
@@ -95,6 +106,7 @@ fn get_dnf() -> PackageManager {
     }
 }
 
+/// Generates an instance of 'apt'.
 fn get_apt() -> PackageManager {
     PackageManager {
         command_name: "apt",
@@ -107,6 +119,7 @@ fn get_apt() -> PackageManager {
     }
 }
 
+/// Generates an instance of 'snap'.
 fn get_snap() -> PackageManager {
     PackageManager {
         command_name: "snap",
@@ -119,6 +132,7 @@ fn get_snap() -> PackageManager {
     }
 }
 
+/// Generates an instance of 'flatpak'.
 fn get_flatpak() -> PackageManager {
     PackageManager {
         command_name: "flatpak",
@@ -131,6 +145,7 @@ fn get_flatpak() -> PackageManager {
     }
 }
 
+/// Generates an instance of 'brew'.
 fn get_brew() -> PackageManager {
     PackageManager {
         command_name: "brew",
@@ -143,18 +158,22 @@ fn get_brew() -> PackageManager {
     }
 }
 
+/// Generates a list of package managers for Arch
 fn get_package_managers_for_arch() -> Vec<PackageManager> {
     vec![get_pacman(), get_yay(), get_snap(), get_flatpak()]
 }
 
+/// Generates a list of package managers for RedHat
 fn get_package_managers_for_redhat() -> Vec<PackageManager> {
     vec![get_dnf(), get_snap(), get_flatpak()]
 }
 
+/// Generates a list of package managers for Debian
 fn get_package_managers_for_debian() -> Vec<PackageManager> {
     vec![get_apt(), get_snap(), get_flatpak()]
 }
 
+/// Generates a list of package managers for Linux
 pub fn get_package_managers_for_linux() -> Option<Vec<PackageManager>> {
     if does_exist("pacman") {
         Some(get_package_managers_for_arch())
@@ -167,6 +186,7 @@ pub fn get_package_managers_for_linux() -> Option<Vec<PackageManager>> {
     }
 }
 
+/// Generates a list of package managers for MacOS
 pub fn get_package_managers_for_macos() -> Vec<PackageManager> {
     vec![get_brew()]
 }

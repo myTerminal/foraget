@@ -1,3 +1,5 @@
+//! Provides implementation for primary tasks.
+
 use crate::environment::{
     does_exist, print_list, prompt_for_value_from_list, run_command_and_get_list,
     run_command_continuous,
@@ -5,6 +7,7 @@ use crate::environment::{
 use crate::package_managers::{Installer, PackageManager};
 use ansi_term::Color;
 
+/// Initializes supplementary package managers.
 pub fn init() {
     println!(
         "Initializing more package sources.. ({}).",
@@ -18,6 +21,7 @@ pub fn init() {
     );
 }
 
+/// Prints search results for a particular package through the supplied package managers.
 pub fn search(package_managers: &Vec<PackageManager>, package_to_search: &str) {
     println!("Searching {}...", Color::Yellow.paint(package_to_search));
 
@@ -25,6 +29,7 @@ pub fn search(package_managers: &Vec<PackageManager>, package_to_search: &str) {
     print_list(&get_search_results(&package_managers, package_to_search));
 }
 
+/// Gets search results for a particular package through supplied package managers.
 fn get_search_results(
     package_managers: &Vec<PackageManager>,
     package_to_search: &str,
@@ -52,6 +57,7 @@ fn get_search_results(
     all_search_results
 }
 
+/// Generates pairs of package managers and search results.
 fn get_paired_search_results(package_manager: &str, package_list: &Vec<String>) -> Vec<String> {
     package_list
         .iter()
@@ -60,6 +66,7 @@ fn get_paired_search_results(package_manager: &str, package_list: &Vec<String>) 
         .collect::<Vec<String>>()
 }
 
+/// Attempts installing a particular package using one of the supplied package managers.
 pub fn install(package_managers: &Vec<PackageManager>, package_to_install: &str) {
     let search_results = get_search_results(package_managers, package_to_install);
 
@@ -81,12 +88,14 @@ pub fn install(package_managers: &Vec<PackageManager>, package_to_install: &str)
     }
 }
 
+/// Generates a pair of package manager and package from a search result.
 fn break_pair_from_search_result(result_item: &str) -> (String, String) {
     let pair = result_item.split(" -> ").collect::<Vec<&str>>();
 
     (pair[0].to_string(), pair[1].to_string())
 }
 
+/// Installs a particular package through the appropriate package manager.
 fn install_from_selected_pair(package_managers: &Vec<PackageManager>, result_pair: &str) {
     let pair = break_pair_from_search_result(&result_pair);
 
