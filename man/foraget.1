@@ -1,0 +1,35 @@
+.\" Manpage for foraget.
+.\" Contact Mohammed Ismail Ansari <team.terminal@gmail.com> to correct errors or typos.
+.TH foraget 1 "06/14/2020" "0.1.0"
+.SH NAME
+foraget \- A simple universal package manager for Unix-like systems
+.SH SYNOPSIS
+.B foraget
+\fISUBCOMMAND\fR
+[\fIARG\fR]
+.SH DESCRIPTION
+.B foraget
+acts as a single interface to work with multiple package managers in (and across) environments.
+.SH SUBCOMMANDS
+.TP
+.BR help
+Prints this message or the help of the given subcommand(s).
+.TP
+.BR version
+Prints the version number of foraget.
+.TP
+.BR init
+Install additional package sources.
+.TP
+.BR search " " \fIterm\fR
+Search for a package across sources with \fIterm\fR.
+.TP
+.BR install " " \fIpackage\fR
+Install a \fIpackage\fR if found or prompts to choose from a list of options if multiple packages are found with the name.
+.TP
+.BR uninstall " " \fIpackage\fR
+Uninstall a \fIpackage\fR if installed, using the appropriate package manager.
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Mohammed Ismail Ansari (team.terminal@gmail.com)
