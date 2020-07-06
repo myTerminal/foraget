@@ -22,7 +22,13 @@ If you already have [Cargo](https://github.com/rust-lang/cargo) installed, *fora
 
 ### As an application package
 
-(Coming soon)
+#### Compile from source
+
+    # Clone project to local
+    git clone https://github.com/myTerminal/foraget.git
+
+    # Install with `make`
+    make install
 
 ## How to Use
 
