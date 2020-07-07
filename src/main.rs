@@ -12,6 +12,7 @@ mod package_managers;
 mod platforms;
 mod tasks;
 
+use environment::does_exist;
 use package_managers::PackageManager;
 use platforms::get_relevant_package_managers;
 
@@ -21,6 +22,9 @@ use platforms::get_relevant_package_managers;
 /// passing them in. If there are no known package managers for the currently detected environment,
 /// ends the program with an appropriate message.
 fn main() {
+    // Check for dependencies
+    check_for_dependencies();
+
     // Get relevant package managers
     if let Some(package_managers) = get_relevant_package_managers() {
         // Run foraget for the relevant package managers
@@ -35,6 +39,18 @@ fn main() {
         // Exit foraget
         process::exit(0);
     }
+}
+
+fn check_for_dependencies() {
+    let dependencies = vec![("fzf", "A command-line fuzzy finder")];
+
+    dependencies.iter().for_each(|d| {
+        if !does_exist(d.0) {
+            println!("{}", Color::Red.paint("The below dependency is required:"));
+            println!("{}  -  {}", d.0, d.1);
+            process::exit(0);
+        }
+    })
 }
 
 /// Runs foraget with the supplied package managers.
