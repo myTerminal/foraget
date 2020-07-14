@@ -15,8 +15,12 @@ clean:
 build:
 	@echo \(Unimplemented\) Building for current platform...
 
-install: 
+install:
 	@echo \(Unimplemented\) Installing...
 
 manpage:
 	@echo \(Unimplemented\) Installing manpage...
+
+ifeq ($(shell command -v fzf),)
+	@echo "Please install fzf as it is required for some features."
+endif
