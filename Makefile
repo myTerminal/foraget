@@ -1,10 +1,7 @@
 SHELL = /bin/sh
 
-all: deps env clean build install manpage
+all: env clean build install manpage
 	@echo \(Unimplemented\) Default...
-
-deps:
-	@echo \(Unimplemented\) Getting dependencies...
 
 env:
 	@echo \(Unimplemented\) Preparing environment...
