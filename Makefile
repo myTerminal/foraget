@@ -19,6 +19,8 @@ else
 	@echo "'cargo' found, build is possible."
 endif
 
+req: deps env
+
 clean:
 	@echo "Cleaning build directory..."
 	cargo clean
@@ -33,5 +35,5 @@ place:
 manpage:
 	@echo "\(Unimplemented\) Installing manpage..."
 
-install: deps env clean build place manpage
+install: req clean build place manpage
 	@echo "\(Unimplemented\) Installing..."
