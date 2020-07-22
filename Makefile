@@ -1,6 +1,7 @@
 SHELL = /bin/sh
 
-all: deps env clean build install manpage
+help:
+	@echo \(Unimplemented\) Help
 
 deps:
 	@echo Checking for dependencies...
@@ -15,13 +16,18 @@ ifeq ($(shell command -v cargo),)
 endif
 
 clean:
+	@echo Cleaning build directory...
 	cargo clean
 
 build:
+	@echo Building project...
 	cargo build --release
 
-install:
-	@echo \(Unimplemented\) Installing...
+place:
+	@echo \(Unimplemented\) Placing in PATH...
 
 manpage:
 	@echo \(Unimplemented\) Installing manpage...
+
+install: deps env clean build place manpage
+	@echo \(Unimplemented\) Installing...
