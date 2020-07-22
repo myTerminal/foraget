@@ -7,12 +7,16 @@ deps:
 	@echo "Checking for dependencies..."
 ifeq ($(shell command -v fzf),)
 	@echo "Please install fzf as it is required for some features."
+else
+	@echo "'fzf' found."
 endif
 
 env:
 	@echo "Checking environment for Rust compiler..."
 ifeq ($(shell command -v cargo),)
-	@echo "`cargo` is required for installation."
+	@echo "'cargo' is required for installation."
+else
+	@echo "'cargo' found, build is possible."
 endif
 
 clean:
@@ -24,7 +28,7 @@ build:
 	cargo build --release
 
 place:
-	@echo "\(Unimplemented\) Placing in `PATH`..."
+	@echo "\(Unimplemented\) Placing in 'PATH'..."
 
 manpage:
 	@echo "\(Unimplemented\) Installing manpage..."
