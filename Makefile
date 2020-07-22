@@ -1,7 +1,9 @@
 SHELL = /bin/sh
 
 help:
-	@echo "\(Unimplemented\) Help"
+	@echo "Use one of the following options:"
+	@echo "'make req' - Checks depencencies and environment"
+	@echo "'make install' - Installs foraget"
 
 deps:
 	@echo "Checking for dependencies..."
