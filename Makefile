@@ -4,6 +4,7 @@ help:
 	@echo "Use one of the following options:"
 	@echo "'make req' - Checks depencencies and environment"
 	@echo "'make install' - Installs foraget"
+	@echo "'make uninstall' - Uninstalls foraget"
 
 deps:
 	@echo "Checking for dependencies..."
@@ -32,10 +33,13 @@ build:
 	cargo build --release
 
 place:
-	@echo "\(Unimplemented\) Placing in 'PATH'..."
+	@echo "(Unimplemented) Placing in 'PATH'..."
 
 manpage:
-	@echo "\(Unimplemented\) Installing manpage..."
+	@echo "(Unimplemented) Installing manpage..."
 
 install: req clean build place manpage
-	@echo "\(Unimplemented\) Installing..."
+	@echo "(Unimplemented) Installing..."
+
+uninstall:
+	@echo "(Unimplemented) Uninstalling..."
