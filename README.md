@@ -27,6 +27,9 @@ If you already have [Cargo](https://github.com/rust-lang/cargo) installed, *fora
     # Clone project to local
     git clone https://github.com/myTerminal/foraget.git
 
+    # Switch to project directory
+    cd foraget
+
     # Install with `make`
     make install
 
