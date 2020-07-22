@@ -1,10 +1,18 @@
 SHELL = /bin/sh
 
-all: env clean build install manpage
-	@echo \(Unimplemented\) Default...
+all: deps env clean build install manpage
+
+deps:
+	@echo Checking for dependencies...
+ifeq ($(shell command -v fzf),)
+	@echo "Please install fzf as it is required for some features."
+endif
 
 env:
-	@echo \(Unimplemented\) Preparing environment...
+	@echo Checking environment for Rust compiler...
+ifeq ($(shell command -v cargo),)
+	@echo "'cargo' is required for installation."
+endif
 
 clean:
 	@echo \(Unimplemented\) Cleaning...
@@ -17,7 +25,3 @@ install:
 
 manpage:
 	@echo \(Unimplemented\) Installing manpage...
-
-ifeq ($(shell command -v fzf),)
-	@echo "Please install fzf as it is required for some features."
-endif
