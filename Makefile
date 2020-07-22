@@ -15,10 +15,10 @@ ifeq ($(shell command -v cargo),)
 endif
 
 clean:
-	@echo \(Unimplemented\) Cleaning...
+	cargo clean
 
 build:
-	@echo \(Unimplemented\) Building for current platform...
+	cargo build --release
 
 install:
 	@echo \(Unimplemented\) Installing...
