@@ -14,7 +14,7 @@ I wanted to name it something that is easy to spell as well as remember. Getting
 
 ## Installation
 
-### As a binary crate using Cargo
+### As a binary crate using Cargo (Soon)
 
 If you already have [Cargo](https://github.com/rust-lang/cargo) installed, *foraget* can be installed directly from [crates.io](https://crates.io) using the below command:
 
