@@ -37,14 +37,14 @@ build:
 	cargo build --release
 
 place:
-	@echo "(Unimplemented) Placing in 'PATH'..."
+	install ./target/release/foraget $(PREFIX)/bin/
 
 manpage:
 	@echo "(Unimplemented) Installing manpage..."
 
 install: req clean build place manpage
-	install ./target/release/foraget $(PREFIX)/bin/
 	@echo "foraget is now installed!"
 
 uninstall:
-	@echo "(Unimplemented) Uninstalling..."
+	rm $(PREFIX)/bin/foraget
+	@echo "Uninstallation was successful!"
