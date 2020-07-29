@@ -10,6 +10,7 @@ help:
 	@echo "'make req' - Checks depencencies and environment"
 	@echo "'make install' - Installs foraget"
 	@echo "'make uninstall' - Uninstalls foraget"
+	@echo "'make reinstall' - Reinstalls foraget"
 
 deps:
 	@echo "Checking for dependencies..."
@@ -57,3 +58,5 @@ uninstall:
 	rm $(PREFIX)/bin/foraget
 	rm $(MANPREFIX)/man1/foraget.1
 	@echo "Uninstallation was successful!"
+
+reinstall: uninstall install
