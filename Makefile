@@ -43,7 +43,8 @@ manpage:
 	@echo "(Unimplemented) Installing manpage..."
 
 install: req clean build place manpage
-	@echo "(Unimplemented) Installing..."
+	install ./target/release/foraget $(PREFIX)/bin/
+	@echo "foraget is now installed!"
 
 uninstall:
 	@echo "(Unimplemented) Uninstalling..."
