@@ -154,7 +154,7 @@ fn get_brew() -> PackageManager {
         uninstall_key: "uninstall",
         run_key: "",
         no_confirm_key: "",
-        does_need_root: true,
+        does_need_root: false,
     }
 }
 
