@@ -1,5 +1,9 @@
 SHELL = /bin/sh
 
+ifeq ($(PREFIX),)
+    PREFIX := /usr/local
+endif
+
 help:
 	@echo "Use one of the following options:"
 	@echo "'make req' - Checks depencencies and environment"
