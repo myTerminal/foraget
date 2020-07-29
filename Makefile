@@ -7,7 +7,7 @@ MANPREFIX := $(PREFIX)/share/man
 
 help:
 	@echo "Use one of the following options:"
-	@echo "'make req' - Checks depencencies and environment"
+	@echo "'make req' - Checks dependencies and environment"
 	@echo "'make install' - Installs foraget"
 	@echo "'make uninstall' - Uninstalls foraget"
 	@echo "'make reinstall' - Reinstalls foraget"
