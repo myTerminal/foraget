@@ -3,6 +3,7 @@ SHELL = /bin/sh
 ifeq ($(PREFIX),)
     PREFIX := /usr/local
 endif
+MANPREFIX := $(PREFIX)/share/man
 
 help:
 	@echo "Use one of the following options:"
@@ -40,11 +41,14 @@ place:
 	install ./target/release/foraget $(PREFIX)/bin/
 
 manpage:
-	@echo "(Unimplemented) Installing manpage..."
+	@echo "Creating manpage..."
+	cp ./man/foraget.1 $(MANPREFIX)/man1/
+	@echo "Manpage created!"
 
 install: req clean build place manpage
 	@echo "foraget is now installed!"
 
 uninstall:
 	rm $(PREFIX)/bin/foraget
+	rm $(MANPREFIX)/man1/foraget.1
 	@echo "Uninstallation was successful!"
