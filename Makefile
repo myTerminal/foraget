@@ -42,12 +42,12 @@ build:
 
 place:
 	@echo "Installing binary..."
-	install ./target/release/foraget $(PREFIX)/bin/
+	sudo install ./target/release/foraget $(PREFIX)/bin/
 	@echo "Binary installed"
 
 manpage:
 	@echo "Creating manpage..."
-	cp ./man/foraget.1 $(MANPREFIX)/man1/
+	sudo cp ./man/foraget.1 $(MANPREFIX)/man1/
 	@echo "Manpage created"
 
 install: req clean build place manpage
@@ -55,8 +55,8 @@ install: req clean build place manpage
 
 uninstall:
 	@echo "Uninstalling foraget..."
-	rm $(PREFIX)/bin/foraget
-	rm $(MANPREFIX)/man1/foraget.1
+	sudo rm $(PREFIX)/bin/foraget
+	sudo rm $(MANPREFIX)/man1/foraget.1
 	@echo "Uninstallation was successful!"
 
 reinstall: uninstall install
