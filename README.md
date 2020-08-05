@@ -91,7 +91,7 @@ You would have probably used *foraget* to install a package and may not be sure 
 
 ## External Dependency
 
-* [fzf](https://github.com/junegunn/fzf)
+*foraget* depends on [fzf](https://github.com/junegunn/fzf) for a few features. Until implemented as a part of the installation process, you might need to install it manually.
 
 ## To-do
 
