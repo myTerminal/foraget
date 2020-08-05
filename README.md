@@ -1,6 +1,6 @@
 # foraget
 
-A simple universal package manager for Unix-like systems [in-progress]
+A simple universal package manager for Unix-like systems
 
 ## Background
 
@@ -14,13 +14,23 @@ I wanted to name it something that is easy to spell as well as remember. Getting
 
 ## Installation
 
-### As a binary crate using Cargo (Soon)
+There are a few different ways to get *foraget*.
+
+### As a binary crate using Cargo
 
 If you already have [Cargo](https://github.com/rust-lang/cargo) installed, *foraget* can be installed directly from [crates.io](https://crates.io) using the below command:
 
     cargo install foraget
 
-### As an application package
+Once installed, in order to update and get the latest version, install it with `--force`:
+
+    cargo install foraget --force
+
+Uninstalling is also as easy as:
+
+    cargo uninstall foraget
+
+### As a native application package
 
 #### Compile from source
 
@@ -32,6 +42,18 @@ If you already have [Cargo](https://github.com/rust-lang/cargo) installed, *fora
 
     # Install with `make`
     make install
+
+Uninstalling would need only a single command:
+
+    make uninstall
+
+Re-installation is also possible with:
+
+    make reinstall
+
+#### Through an existing package manager in your system
+
+*foraget* will soon be available to install from your operating system's package manager.
 
 ## How to Use
 
