@@ -1,7 +1,7 @@
 # foraget
 
-[![Crates.io version](https://img.shields.io/crates/v/foraget?style=flat-square)](https://crates.io/crates/foraget)
-[![Crates.io downloads](https://img.shields.io/crates/d/foraget?style=flat-square)](https://crates.io/crates/foraget)  
+[![Crates.io version](https://img.shields.io/crates/v/foraget)](https://crates.io/crates/foraget)
+[![Crates.io downloads](https://img.shields.io/crates/d/foraget)](https://crates.io/crates/foraget)  
 [![Code Climate](https://codeclimate.com/github/myTerminal/foraget.png)](https://codeclimate.com/github/myTerminal/foraget)
 [![Coverage Status](https://img.shields.io/coveralls/myTerminal/foraget.svg)](https://coveralls.io/r/myTerminal/foraget?branch=master)  
 [![License](https://img.shields.io/github/license/myTerminal/foraget.svg)](https://opensource.org/licenses/MIT)
