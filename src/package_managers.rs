@@ -80,10 +80,10 @@ fn get_pacman() -> PackageManager {
     }
 }
 
-/// Generates an instance of 'yay'.
-fn get_yay() -> PackageManager {
+/// Generates an instance of 'paru'.
+fn get_paru() -> PackageManager {
     PackageManager {
-        command_name: "yay",
+        command_name: "paru",
         search_key: "-Ssq",
         install_key: "-S",
         uninstall_key: "-R",
@@ -160,7 +160,7 @@ fn get_brew() -> PackageManager {
 
 /// Generates a list of package managers for Arch
 fn get_package_managers_for_arch() -> Vec<PackageManager> {
-    vec![get_pacman(), get_yay(), get_snap(), get_flatpak()]
+    vec![get_pacman(), get_paru(), get_snap(), get_flatpak()]
 }
 
 /// Generates a list of package managers for RedHat

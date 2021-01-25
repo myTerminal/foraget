@@ -33,7 +33,7 @@ pub fn run_command_and_get_list(expression: &str) -> Vec<String> {
 /// # Example
 ///
 /// ```
-/// does_exist("yay");
+/// does_exist("paru");
 /// ```
 pub fn does_exist(command: &str) -> bool {
     // Return true if the command exists in the environment
