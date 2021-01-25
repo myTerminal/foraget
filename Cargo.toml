@@ -1,6 +1,6 @@
 [package]
 name = "foraget"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Mohammed Ismail Ansari <team.terminal@gmail.com>"]
 edition = "2018"
 description = "A simple universal package manager for Unix-like systems"
