@@ -93,13 +93,13 @@ You would have probably used *foraget* to install a package and may not be sure 
 
     foraget uninstall emacs
 
+*foraget* figures out the package manager or source through which the package could be uninstalled.
+
 ### Further help with commands
 
 To learn more about usage, refer to `manpage`:
 
     man foraget
-
-*foraget* figures out the package manager or source through which the package could be uninstalled.
 
 ## External Dependency
 
