@@ -105,7 +105,7 @@ fn run(package_managers: &Vec<PackageManager>) {
         // Try uninstalling the package using one of the relevant package managers
         tasks::uninstall(&package_managers, matches.value_of("PACKAGE").unwrap());
     } else {
-        // Print an error message about non-implementation for the current platform
+        // Ask to be run with a command
         println!("{}", Color::Red.paint("Please run foraget with a command!"));
     }
 }
