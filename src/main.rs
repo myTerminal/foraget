@@ -33,7 +33,7 @@ fn main() {
         // Print error message about non-implementation for the platform
         println!(
             "{}",
-            Color::Red.paint("No known package managers are found on this system!")
+            Color::Red.paint("No known package managers for this system!")
         );
 
         // Exit foraget

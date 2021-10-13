@@ -1,7 +1,5 @@
 //! Contains information and logic around package managers for various environments.
 
-use crate::environment::does_exist;
-
 /// An abtract representation of a typical package manager.
 ///
 /// This struct defines basic properties of a package manager that includes searching, installing,
@@ -159,20 +157,19 @@ fn get_brew() -> PackageManager {
 }
 
 /// Generates a list of package managers for Linux
-pub fn get_package_managers_for_linux() -> Option<Vec<PackageManager>> {
-    if does_exist("pacman") {
-        Some(vec![get_pacman(), get_paru(), get_snap(), get_flatpak()])
-    } else if does_exist("dnf") {
-        Some(vec![get_dnf(), get_snap(), get_flatpak()])
-    } else if does_exist("apt") {
-        Some(vec![get_apt(), get_snap(), get_flatpak()])
-    } else {
-        Some(vec![get_snap(), get_flatpak()])
-    }
+pub fn get_known_package_managers_for_linux() -> Vec<PackageManager> {
+    vec![
+        get_pacman(),
+        get_paru(),
+        get_dnf(),
+        get_apt(),
+        get_snap(),
+        get_flatpak(),
+    ]
 }
 
 /// Generates a list of package managers for MacOS
-pub fn get_package_managers_for_macos() -> Vec<PackageManager> {
+pub fn get_known_package_managers_for_macos() -> Vec<PackageManager> {
     vec![get_brew()]
 }
 
