@@ -158,31 +158,16 @@ fn get_brew() -> PackageManager {
     }
 }
 
-/// Generates a list of package managers for Arch
-fn get_package_managers_for_arch() -> Vec<PackageManager> {
-    vec![get_pacman(), get_paru(), get_snap(), get_flatpak()]
-}
-
-/// Generates a list of package managers for RedHat
-fn get_package_managers_for_redhat() -> Vec<PackageManager> {
-    vec![get_dnf(), get_snap(), get_flatpak()]
-}
-
-/// Generates a list of package managers for Debian
-fn get_package_managers_for_debian() -> Vec<PackageManager> {
-    vec![get_apt(), get_snap(), get_flatpak()]
-}
-
 /// Generates a list of package managers for Linux
 pub fn get_package_managers_for_linux() -> Option<Vec<PackageManager>> {
     if does_exist("pacman") {
-        Some(get_package_managers_for_arch())
+        Some(vec![get_pacman(), get_paru(), get_snap(), get_flatpak()])
     } else if does_exist("dnf") {
-        Some(get_package_managers_for_redhat())
+        Some(vec![get_dnf(), get_snap(), get_flatpak()])
     } else if does_exist("apt") {
-        Some(get_package_managers_for_debian())
+        Some(vec![get_apt(), get_snap(), get_flatpak()])
     } else {
-        None
+        Some(vec![get_snap(), get_flatpak()])
     }
 }
 
