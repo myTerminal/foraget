@@ -12,23 +12,33 @@ help:
 	@echo "'make uninstall' - Uninstalls foraget"
 	@echo "'make reinstall' - Reinstalls foraget"
 
+crater-get:
+	@echo "Setting up Crater for temporary use..."
+	git clone https://github.com/crater-space/cli /tmp/crater-cli
+
 deps:
-	@echo "Checking for dependencies..."
-ifeq ($(shell command -v fzf),)
-	@echo "Please install 'fzf' as it is required for some features."
-else
+	@echo "Checking for 'fzf'..."
+ifneq ($(shell command -v fzf),)
 	@echo "'fzf' found."
+else
+	@echo "Attempting to install 'fzf' using Crater..."
+	/tmp/crater-cli/crater install fzf
 endif
 
 env:
-	@echo "Checking environment for Rust compiler..."
-ifeq ($(shell command -v cargo),)
-	@echo "'cargo' is required for installation."
-else
+	@echo "Looking for Rust compiler..."
+ifneq ($(shell command -v cargo),)
 	@echo "'cargo' found, build can continue."
+else
+	@echo "Attempting to install 'cargo' using Crater..."
+	/tmp/crater-cli/crater install cargo
 endif
 
-req: deps env
+crater-remove:
+	@echo "Removing Crater..."
+	rm -rf /tmp/crater-cli
+
+req: crater-get deps env crater-remove
 
 clean:
 	@echo "Cleaning build directory..."
