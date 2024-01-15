@@ -58,7 +58,7 @@ place:
 manpage:
 	@echo "Creating manpage..."
 	mkdir -p $(MANPREFIX)
-	sudo rsync ./man/foraget.1 $(MANPREFIX)/man1/
+	sudo cp ./man/foraget.1 $(MANPREFIX)/man1/
 	@echo "Manpage created"
 
 install: req clean build place manpage
