@@ -57,7 +57,7 @@ place:
 
 manpage:
 	@echo "Creating manpage..."
-	mkdir -p $(MANPREFIX)
+	mkdir -p $(MANPREFIX)/man1
 	sudo cp ./man/foraget.1 $(MANPREFIX)/man1/
 	@echo "Manpage created"
 
